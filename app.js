@@ -32,8 +32,14 @@ app.get("/pokemon", (req, res) => {
 });
 
 app.get("/pokemon/:index", (req, res) => {
-  const index = Number(req.params.index)
-  res.send(pokemon[index]);
+  const index = Number(req.params.index);
+  if (pokemon[index]) {
+    res.send(pokemon[index]);
+  } else {
+    res.send(`sorry, no pokemon found at ${index} `);
+  }
 });
+
+
 
 module.exports = app;
