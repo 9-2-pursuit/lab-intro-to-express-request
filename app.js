@@ -1,5 +1,6 @@
 const express = require("express");
 const pokemon = require("./models/pokemon.json");
+
 // console.log(pokemon[0]);
 const app = express();
 
@@ -42,7 +43,23 @@ app.get("/pokemon/search", (req, res) => {
   res.send(pokeName ? pokeName : []);
 });
 
-app.get("/pokemon-pretty", (req, res) => {});
+app.get("/pokemon-pretty", (req, res) => {
+
+  const pokeName = pokemon.map((poke) => {
+   return   (poke.name)
+   
+  })
+  res.send(`<ul><a href ="http://localhost:8888/pokemon-pretty/:index">${pokeName}</a><ul>`)
+});
+
+app.get("/pokemon-pretty/:index", (req, res) => {
+let index = Number(req.params.index)
+let find = pokemon.find((poke,i) =>{ poke === index})
+// console.log(index)
+  res.send()
+})
+
+
 
 app.get("/pokemon/:index", (req, res) => {
   const index = Number(req.params.index);
