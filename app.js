@@ -31,15 +31,25 @@ app.get("/pokemon", (req, res) => {
   res.send(pokemon);
 });
 
+app.get("/pokemon/search", (req, res) => {
+  const name = req.query.name;
+//   console.log(req.query.name);
+  let pokeName = pokemon.find(
+    (poke) => poke.name.toLowerCase() === name.toLowerCase()
+  );
+//   console.log(pokeName)
+
+  res.send( pokeName ? pokeName : []);
+});
+
 app.get("/pokemon/:index", (req, res) => {
   const index = Number(req.params.index);
+
   if (pokemon[index]) {
     res.send(pokemon[index]);
   } else {
     res.send(`sorry, no pokemon found at ${index} `);
   }
 });
-
-
 
 module.exports = app;
