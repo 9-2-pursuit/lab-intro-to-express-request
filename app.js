@@ -31,4 +31,9 @@ app.get("/pokemon", (req, res) => {
   res.send(pokemon);
 });
 
+app.get("/pokemon/:index", (req, res) => {
+  const index = Number(req.params.index)
+  res.send(pokemon[index]);
+});
+
 module.exports = app;
