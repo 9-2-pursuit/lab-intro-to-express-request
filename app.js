@@ -9,4 +9,19 @@ app.get("/:verb/:adjective/:noun", (req, res) => {
   );
 });
 
+app.get("/bugs", (req, res) => {
+  res.send(
+    `99 little bugs in the code <a href= "http://localhost:8888/bugs/101">pull one down patch it around</a>`
+  );
+});
+
+app.get("/bugs/101", (req, res) => {
+  res.send("Number of bugs to fix: 101");
+});
+
+app.get("/bugs/:numOfBugs", (req, res) => {
+  const numOfBugs = Number(req.params.numOfBugs);
+  res.send(`${numOfBugs} little bugs in the code <a href= "http://localhost:8888/bugs/:numOfBugs"> pull one down patch it around </a> `);
+});
+
 module.exports = app;
