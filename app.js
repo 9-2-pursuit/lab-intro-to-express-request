@@ -37,5 +37,21 @@ app.get("/bugs/:numberOfBugs", (req, res) => {
   }
 });
 
+// Poke-Express
+const pokemon = require("./models/pokemon.json");
+
+app.get("/pokemon", (req, res) => {
+  res.json(pokemon);
+});
+
+app.get("/pokemon/:indexOfArray", (req, res) => {
+  const { indexOfArray } = req.params;
+  if (pokemon[indexOfArray]) {
+    res.json(pokemon[indexOfArray]);
+  } else {
+    res.send(`Sorry, no pokemon found at ${indexOfArray}`);
+  }
+});
+
 // EXPORT
 module.exports = app;
