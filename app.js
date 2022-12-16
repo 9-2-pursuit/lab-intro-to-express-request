@@ -48,4 +48,26 @@ app.get("/:verb/:adjective/:noun", (req, res) => {
   );
 });
 
+app.get("/pokemon-pretty", (req, res) => {
+  let html = pokemon
+    .map(
+      (poke, index) =>
+        `<div><a href=${"/pokemon-pretty/" + index}><h3>${
+          poke.name
+        }</h3><img src=${poke.img} />}</a></div>`
+    )
+    .join("");
+  res.send(html);
+});
+
+app.get("/pokemon-pretty/:indexOfArray", (req, res) => {
+  const { indexOfArray } = req.params;
+  const poke = pokemon[indexOfArray];
+  const html = `<div><h1>${poke.name}</h1>
+    <img src=${poke.img} />
+    <p>Type: ${poke.type.join(" ")}</p>
+    <p>state: ${Object.entries(poke.stats).join(" ").replaceAll(",", ":")}
+    </div>`;
+  res.send(html);
+});
 module.exports = app;
