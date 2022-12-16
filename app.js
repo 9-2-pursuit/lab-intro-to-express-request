@@ -17,5 +17,25 @@ app.get("/:verb/:adjective/:noun", (req, res) => {
   );
 });
 
+// 99 Little Bugs In the Code
+app.get("/bugs", (req, res) => {
+  res.send(
+    `<h1>99 little bugs in the code</h1> <a href="/bugs/101">Pull one down, patch it around</a>`
+  );
+});
+
+app.get("/bugs/:numberOfBugs", (req, res) => {
+  const { numberOfBugs } = req.params;
+  if (numberOfBugs >= 200) {
+    res.send(`<a href="/bugs">Too many bugs!! Start over!</a>`);
+  } else {
+    res.send(
+      `${numberOfBugs} little bugs in the code <a href="/bugs/${
+        Number(numberOfBugs) + 2
+      }">Pull one down, patch it around</a>`
+    );
+  }
+});
+
 // EXPORT
 module.exports = app;
