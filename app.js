@@ -44,6 +44,18 @@ app.get("/pokemon", (req, res) => {
   res.json(pokemon);
 });
 
+app.get("/pokemon/search", (req, res) => {
+  const { name } = req.query;
+  const searchedPokemon = pokemon.filter(
+    (poke) => poke.name.toLowerCase() === name.toLowerCase()
+  );
+  if (searchedPokemon.length > 0) {
+    res.json(searchedPokemon[0]);
+  } else {
+    res.json(searchedPokemon);
+  }
+});
+
 app.get("/pokemon/:indexOfArray", (req, res) => {
   const { indexOfArray } = req.params;
   if (pokemon[indexOfArray]) {
