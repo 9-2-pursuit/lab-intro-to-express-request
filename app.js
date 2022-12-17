@@ -3,12 +3,6 @@ const pokemon = require("./models/pokemon.json");
 
 const app = express();
 
-app.get("/:verb/:adjective/:noun", (req, res) => {
-  res.send(
-    `Congratulations on starting a new project called ${req.params.verb}-${req.params.adjective}-${req.params.noun}!`
-  );
-});
-
 app.get("/", (req, res) => {
   res.send("Welcome 99 Pokemon");
 });
@@ -52,6 +46,36 @@ app.get("/pokemon/:index", (req, res) => {
     pokemon[Number(req.params.index)]
       ? pokemon[Number(req.params.index)]
       : `Sorry, no pokemon found at ${req.params.index}`
+  );
+});
+
+app.get("/pokemon-pretty", (req, res) => {
+  res.send(
+    "All Pokemon" +
+      pokemon
+        .map(
+          (p, i) =>
+            `<ul><li><a href="/pokemon-pretty/${i}">${p.name}</a></li></ul>`
+        )
+        .join("")
+  );
+});
+
+app.get("/pokemon-pretty/:indexOfArray", (req, res) => {
+  const foundIndex = pokemon[Number(req.params.indexOfArray)];
+  if (foundIndex) {
+    const { name, img, misc } = foundIndex;
+    res.send(
+      `<h2>Name: ${name}</h2> <img src = ${img} alt = ${name}/> <h3>Height: ${misc.height}</h3> <h3>Weight: ${misc.weight}</h3>`
+    );
+  } else {
+    res.send(`Sorry, no pokemon found at ${req.params.indexOfArray}`);
+  }
+});
+
+app.get("/:verb/:adjective/:noun", (req, res) => {
+  res.send(
+    `Congratulations on starting a new project called ${req.params.verb}-${req.params.adjective}-${req.params.noun}!`
   );
 });
 
