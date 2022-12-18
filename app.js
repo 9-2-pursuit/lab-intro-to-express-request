@@ -12,11 +12,13 @@ app.get("/bugs", (req, res) => {
 
 app.get("/bugs/:numOfBugs", (req, res) => {
   const num = req.params.numOfBugs;
-  const toSend = `${num} little bugs in the code<a href="/bugs/${
+  const toSend = `<h1>${num} little bugs in the code</h1><a href="/bugs/${
     +num + 2
   }">Pull one down, patch it around</a>`;
   if (num >= 200) {
-    res.send('<a href="/bugs">Too many bugs!! Start over!</a>)');
+    res.send(
+      `<h1>${num} little bugs in the code</h1><a href="/bugs">Too many bugs!! Start over!</a>)`
+    );
   }
   res.send(toSend);
 });
