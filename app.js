@@ -65,5 +65,34 @@ app.get("/pokemon/:indexOfArray", (req, res) => {
   }
 });
 
+// BONUS
+
+function renderPokemonList(pokemon) {
+  let listStr = "<ul>";
+  listStr += pokemon
+    .map((poke, i) => {
+      return `<li><a href="/pokemon-pretty/${i}">${poke.name}</a></li>`;
+    })
+    .join("");
+  listStr += "</ul><style>body {background-color: yellow}</style>";
+  return listStr;
+}
+
+app.get("/pokemon-pretty", (req, res) => {
+  res.send(renderPokemonList(pokemon));
+});
+
+function renderIndividualPokemon(individualPokemon) {
+  const nameStr = `<h2>${individualPokemon.name}</h2>`;
+  const imgStr = `<img src="${individualPokemon.img}" alt="${individualPokemon.name}"></img>`;
+  // render other stats
+  return nameStr + imgStr;
+}
+
+app.get("/pokemon-pretty/:index", (req, res) => {
+  const { index } = req.params;
+  res.send(renderIndividualPokemon(pokemon[index]));
+});
+
 // EXPORT
 module.exports = app;
