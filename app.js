@@ -4,10 +4,14 @@ const pokemon = require("./models/pokemon.json");
 // console.log(pokemon[0]);
 const app = express();
 
+app.get("/", (req, res) => {
+  res.send("Welcome 99 Pokemon");
+});
+
 app.get("/:verb/:adjective/:noun", (req, res) => {
   const { verb, adjective, noun } = req.params;
   res.send(
-    `Congratulations on starting a new project called ${req.params.verb} ${req.params.adjective} ${req.params.noun} `
+    `Congratulations on starting a new project called ${req.params.verb}-${req.params.adjective}-${req.params.noun}!`
   );
 });
 
@@ -44,22 +48,22 @@ app.get("/pokemon/search", (req, res) => {
 });
 
 app.get("/pokemon-pretty", (req, res) => {
-
   const pokeName = pokemon.map((poke) => {
-   return   (poke.name)
-   
-  })
-  res.send(`<ul><a href ="http://localhost:8888/pokemon-pretty/:index">${pokeName}</a><ul>`)
+    return poke.name;
+  });
+  res.send(
+    `<ul><a href ="http://localhost:8888/pokemon-pretty/:index">${pokeName}</a><ul>`
+  );
 });
 
 app.get("/pokemon-pretty/:index", (req, res) => {
-let index = Number(req.params.index)
-let find = pokemon.find((poke,i) =>{ poke === index})
-// console.log(index)
-  res.send()
-})
-
-
+  let index = Number(req.params.index);
+  let find = pokemon.find((poke, i) => {
+    poke === index;
+  });
+  // console.log(index)
+  res.send();
+});
 
 app.get("/pokemon/:index", (req, res) => {
   const index = Number(req.params.index);
@@ -67,7 +71,7 @@ app.get("/pokemon/:index", (req, res) => {
   if (pokemon[index]) {
     res.send(pokemon[index]);
   } else {
-    res.send(`sorry, no pokemon found at ${index} `);
+    res.send(`Sorry, no pokemon found at ${index}`);
   }
 });
 
