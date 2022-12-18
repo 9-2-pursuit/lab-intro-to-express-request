@@ -2,21 +2,43 @@ const express = require('express')
 const app = express()
 
 const pokemon = require("./models/pokemon.json");
-let jspokemon = JSON.parse(JSON.stringify(pokemon))
+// let jspokemon = JSON.parse(JSON.stringify(pokemon))
 
 var port = process.env.PORT || 3000;
-console.log(jspokemon[0]);
+// console.log(pokemon[0]);
 
 app.get("/", (req, res) => {
     res.send("Welcome 99 Pokemon");
   });
+
+
+app.get('/pokemon', (req, res) => {
+    res.send(pokemon)
+  })
+  
+  app.get("/pokemon/search", (req,res) => {
+      const { name } = req.query;
+    //   const pokem = pokemon.find((pok) => pok.name.toLowerCase() === name.toLowerCase());
+  const pokeOBJ = pokemon.find((poke) =>  (poke.name).toLowerCase() === name.toLowerCase());
+//   console.log(pokemon[pokemon.indexOf(name.toLowerCase())])
+  // pokem ? pokemon.forEach(elem => {return (elem.name).toLowerCase() === name.toLowerCase()}) : res.send([])
+  console.log(pokeOBJ)
+  pokeOBJ ? res.send(pokeOBJ) : res.send([]);
+// res.send(pokeOBJ || [])
+  })
+  
+  app.get("/pokemon/:indexOfArray", (req,res) => {
+      const { indexOfArray } = req.params;
+      const pokem = pokemon[indexOfArray];
+      pokem ? res.send(pokemon[indexOfArray]) : res.send(`Sorry, no pokemon found at ${indexOfArray}`)
+  })
 //   app.get("/bugs", (req, res) => {
 //     res.send("99 little bugs in the code");
 //   });
 
-function pokeman(){
-    jspokemon.map(e=>{{e.name}})
-}
+// function pokeman(){
+//     pokemon.map(e=>{{e.name}})
+// }
 
   app.get("/bugs/:numberOfBugs", (req, res) => {
     const { numberOfBugs } = req.params
@@ -36,8 +58,23 @@ app.get('/:verb/:adjective/:noun', (req, res) => {
   res.send(`Congratulations on starting a new project called ${verb}-${adjective}-${noun}!`)
 })
 
-app.get('/pokemon', (req, res) => {
-  res.send(pokeman())
-})
+// app.get('/pokemon', (req, res) => {
+//   res.send(pokemon)
+// })
+
+// app.get("pokemon/search", (req,res) => {
+//     const { name } = req.query;
+//     const pokem = pokemon.find((pok) => pok.name.toLowerCase() === name.toLowerCase());
+
+// // console.log(pokemon[pokemon.indexOf(name.toLowerCase())])
+// // pokem ? pokemon.forEach(elem => {return (elem.name).toLowerCase() === name.toLowerCase()}) : res.send([])
+// res.send(pokem || [])
+// })
+
+// app.get("/pokemon/:indexOfArray", (req,res) => {
+//     const { indexOfArray } = req.params;
+//     const pokem = pokemon[indexOfArray];
+//     pokem ? res.send(pokemon[indexOfArray]) : res.send(`Sorry, no pokemon found at ${indexOfArray}`)
+// })
 
 module.exports = app;
