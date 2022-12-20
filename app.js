@@ -18,7 +18,7 @@ app.get("/bugs", (req, res) => {
   res.send(
     `99 little bugs in the code<br />
     99 little bugs<br />
-    <a href="/bugs/101">Pull one down</a><br />Patch it around<br />
+    <a href=/bugs/101>Pull one down, patch it around</a><br />
     101 bugs in the code`
   );
 });
@@ -33,7 +33,7 @@ app.get("/bugs/:numberOfBugs", (req, res) => {
         ${num} little bugs<br />
         <a href="/bugs/${
           Number(num) + 2
-        }">Pull one down<br />Patch it around<br /></a>
+        }">Pull one down, patch it around</a><br />
         ${Number(num) + 2} bugs in the code`
     );
   }
