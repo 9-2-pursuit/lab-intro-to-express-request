@@ -98,7 +98,7 @@ console.log(pokemon[0]);
 - make a route /pokemon/search - where a user can add a query parameter
   such as http://localhost:8888/pokemon/search?name=oddish
 
-  which will respond with an epmty array if no pokemon was found, or with the pokemon's info - 
+  which will respond with an empty object if no pokemon was found, or with the pokemon's info - 
 
   ```
   {
