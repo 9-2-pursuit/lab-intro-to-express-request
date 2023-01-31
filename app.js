@@ -1,0 +1,112 @@
+const express = require("express");
+const pokemon = require("./models/pokemon.json");
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Welcome 99 Pokemon");
+});
+
+app.get("/:key1/:key2/:key3", (req, res) => {
+  const { key1, key2, key3 } = req.params;
+  res.send(
+    `Congratulations on starting a new project called ${key1}-${key2}-${key3}!`
+  );
+});
+
+app.get("/bugs", (req, res) => {
+  res.send(
+    `<div>
+    <h1>99 little bugs in the code</h1>
+    <a href="/bugs/101">pull one down, patch it around</a>
+    </div>`
+  );
+});
+
+app.get("/bugs/:numberOfBugs", (req, res) => {
+  const { numberOfBugs } = req.params;
+  if (numberOfBugs >= 200) {
+    res.send(`
+  <div>
+    <h1>${numberOfBugs} little bugs in the code</h1>
+    <a href="/bugs">Too many bugs!! Start over!</a>
+  </div>`);
+  } else {
+    res.send(`
+  <div>
+    <h1>${numberOfBugs} little bugs in the code</h1>
+    <a href="/bugs${
+      Number(numberOfBugs) + 2
+    }">Pull one down, patch it around</a>
+  </div>`);
+  }
+  res.send();
+});
+
+app.get("/pokemon", (req, res) => {
+  res.send(pokemon);
+});
+
+app.get("/pokemon/search", (req, res) => {
+  const { name } = req.query;
+  const matchingPoke =
+    pokemon.find((poke) => poke.name.toLowerCase() === name.toLowerCase()) ||
+    [];
+
+  res.send(matchingPoke);
+});
+
+app.get("/pokemon/:pokeIndex", (req, res) => {
+  const { pokeIndex } = req.params;
+  const onePoke =
+    pokemon[pokeIndex] || `Sorry, no pokemon found at ${pokeIndex}`;
+  res.send(onePoke);
+});
+
+app.get("/pokemon-pretty", (req, res) => {
+  res.send(`
+  <ul>
+    ${pokemon
+      .map(
+        (poke, idx) =>
+          `<li><a href="/pokemon-pretty/${idx}">${poke.name}</a></li>`
+      )
+      .join("")}
+  </ul>
+  `);
+});
+
+app.get("/pokemon-pretty/:pokeIndex", (req, res) => {
+  const { pokeIndex } = req.params;
+  const singlePoke = pokemon[pokeIndex];
+
+  const html = `
+<div>
+  <h2>${singlePoke.name}</h2>
+  <img src="${singlePoke.img}" />
+  <span>${singlePoke.type}</span>
+  <table>
+    <thead>
+      <tr>
+        <td>Stat</td>
+        <td>Value</td>
+      </tr>
+    </thead>
+    <tbody>
+      ${Object.keys(singlePoke.stats)
+        .map(
+          (key) => `
+      <tr>
+        <td>${key}</td>
+        <td>${singlePoke.stats[key]}</td>
+      </tr>`
+        )
+        .join("")}
+    </tbody>
+  </table>
+</div>
+`;
+
+  res.send(html);
+});
+
+module.exports = app;
