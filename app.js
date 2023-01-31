@@ -8,16 +8,15 @@ app.get("/", (req, res) => {
 
 app.get("/:key1/:key2/:key3", (req, res) => {
   const { key1, key2, key3 } = req.params;
-  res.send("hello!");
   res.send(
-    `Congratulations on starting a new project called ${key1}-${key2}-${key3}`
+    `Congratulations on starting a new project called ${key1}-${key2}-${key3}!`
   );
 });
 
 app.get("/bugs", (req, res) => {
   res.send(
     `<div>
-    <span>99 little bugs in the code</span>
+    <h1>99 little bugs in the code</h1>
     <a href="/bugs/101">pull one down, patch it around</a>
     </div>`
   );
@@ -25,19 +24,22 @@ app.get("/bugs", (req, res) => {
 
 app.get("/bugs/:numberOfBugs", (req, res) => {
   const { numberOfBugs } = req.params;
-  let link = `<a href="/bugs/${
-    Number(numberOfBugs) + 2
-  }">pull one down, patch it around</a>`;
-
-  if (Number(numberOfBugs) >= 200) {
-    link = `<a href="/bugs">start over</a>`;
-  }
-
-  res.send(`
+  if (numberOfBugs >= 200) {
+    res.send(`
   <div>
-    <span>${numberOfBugs} little bugs in the code</span>
-   ${link}
+    <h1>${numberOfBugs} little bugs in the code</h1>
+    <a href="/bugs">Too many bugs!! Start over!</a>
   </div>`);
+  } else {
+    res.send(`
+  <div>
+    <h1>${numberOfBugs} little bugs in the code</h1>
+    <a href="/bugs${
+      Number(numberOfBugs) + 2
+    }">Pull one down, patch it around</a>
+  </div>`);
+  }
+  res.send();
 });
 
 app.get("/pokemon", (req, res) => {
@@ -48,7 +50,7 @@ app.get("/pokemon/search", (req, res) => {
   const { name } = req.query;
   const matchingPoke =
     pokemon.find((poke) => poke.name.toLowerCase() === name.toLowerCase()) ||
-    {};
+    [];
 
   res.send(matchingPoke);
 });
@@ -56,7 +58,7 @@ app.get("/pokemon/search", (req, res) => {
 app.get("/pokemon/:pokeIndex", (req, res) => {
   const { pokeIndex } = req.params;
   const onePoke =
-    pokemon[pokeIndex] || `sorry, no pokemon found at ${pokeIndex}`;
+    pokemon[pokeIndex] || `Sorry, no pokemon found at ${pokeIndex}`;
   res.send(onePoke);
 });
 
